@@ -16,6 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import FormError from '../FormError'
+import FormSuccess from '../FormSuccess'
 
 
 const LoginForm = () => {
@@ -82,6 +84,9 @@ const LoginForm = () => {
                     />
 
                 </div>
+
+                <FormError message=''/>
+                <FormSuccess message=''/>
 
                 <Button
                     type='submit'

@@ -11,7 +11,8 @@ Public routes that are used for authentication
  */
 export const authRoutes = [
     "/auth/login",
-    "/auth/register"
+    "/auth/register",
+    "/auth/error"
 ]
 
 /*

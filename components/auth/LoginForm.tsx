@@ -20,9 +20,14 @@ import { Input } from "@/components/ui/input"
 import FormError from '../FormError'
 import FormSuccess from '../FormSuccess'
 import { login } from '@/actions/login'
+import { useSearchParams } from 'next/navigation'
 
 
 const LoginForm = () => {
+
+    const searchParams = useSearchParams();
+    const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
+        ? "Email alredy in use with different provider" : "";
 
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
@@ -104,7 +109,7 @@ const LoginForm = () => {
 
                 </div>
 
-                <FormError message={error}/>
+                <FormError message={error || urlError}/>
                 <FormSuccess message={success}/>
 
                 <Button

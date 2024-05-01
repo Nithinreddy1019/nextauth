@@ -2,7 +2,8 @@
 Public routes that donot require authentication
  */
 export const publicRoutes = [
-    "/"
+    "/",
+    "/auth/new-verification"
 ]
 
 
@@ -12,7 +13,8 @@ Public routes that are used for authentication
 export const authRoutes = [
     "/auth/login",
     "/auth/register",
-    "/auth/error"
+    "/auth/error",
+    
 ]
 
 /*

@@ -8,3 +8,12 @@ export const curretnUser = async () => {
 
     return session?.user;
 }
+
+export const curretnUserRole = async () => {
+    const session = await auth();
+
+   
+
+    return session?.user.role;
+}
+

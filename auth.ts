@@ -4,13 +4,16 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./lib/db";
 import { getUserById } from "./data/user";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
+import { exit } from "process";
+import { getAccoutnByUserId } from "./data/account";
 
 
 declare module "next-auth" {
     interface Session {
         user: {
             role: string,
-            isTwoFactorEnabled: Boolean
+            isTwoFactorEnabled: Boolean,
+            isOAuth: Boolean
         } & DefaultSession["user"]
     }
 }
@@ -65,6 +68,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if(typeof existingUser.role === 'string') {
                 token.role = existingUser.role;
             }
+
+            const existingAccount = await getAccoutnByUserId(existingUser.id);
+
+            token.isOAuth = !!existingAccount;
+            token.name = existingUser.name;
+            token.email = existingUser.email;
             token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
         
@@ -82,6 +91,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             if(token.isTwoFactorEnabled && session.user){
                 session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as Boolean
+            }
+
+            if(session.user) {
+                session.user.name = token.name;
+                session.user.email= token.email as string;
+                session.user.isOAuth = token.isOAuth as Boolean;
             }
 
             return session

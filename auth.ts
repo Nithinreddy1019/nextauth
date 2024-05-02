@@ -9,7 +9,8 @@ import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation
 declare module "next-auth" {
     interface Session {
         user: {
-            role: object
+            role: string,
+            isTwoFactorEnabled: Boolean
         } & DefaultSession["user"]
     }
 }
@@ -61,18 +62,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const existingUser = await getUserById(token.sub);
             if(!existingUser) return token;
 
-            token.role = existingUser.role;
+            if(typeof existingUser.role === 'string') {
+                token.role = existingUser.role;
+            }
+            token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
+        
             return token
         },
-        async session({token, session}){
+        async session({token, session, user}){
 
             if(token.sub && session.user){
                 session.user.id = token.sub
             }
 
             if(token.role && session.user){
-                session.user.role = token.role
+                session.user.role = token.role as string
+            }
+
+            if(token.isTwoFactorEnabled && session.user){
+                session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as Boolean
             }
 
             return session

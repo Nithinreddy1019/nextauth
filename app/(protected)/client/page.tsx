@@ -1,0 +1,21 @@
+"use client"
+
+import { auth } from "@/auth";
+import { UserInfo } from "@/components/user-info";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { curretnUser } from "@/lib/auth";
+
+const ClientPage =  () => {
+
+    let user = useCurrentUser()
+    
+
+    return ( 
+        <UserInfo 
+            user={user}
+            label="🧑‍🦰Client component"
+        />
+    );
+}
+ 
+export default ClientPage;

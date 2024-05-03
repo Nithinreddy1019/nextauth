@@ -56,7 +56,7 @@ const SettingsPage = () => {
       password: undefined,
       newPassword: undefined,
       role: "USER" || "ADMIN" || undefined,
-      isTwoFactorEnabled: user?.isTwoFactorEnabled as Boolean || undefined
+      isTwoFactorEnabled: user?.isTwoFactorEnabled as boolean || undefined
 
 
     }
